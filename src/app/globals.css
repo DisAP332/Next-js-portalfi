@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 3fr 1fr;
+  height: 6%;
+}
+
+.header > div > div {
+  display: flex;
+  align-items: center;
+}
+
+.header > div {
+  height: 100%;
+}
+
+.app {
+  height: 94%;
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+}
+
+.navigation {
+  display: grid;
+  grid-template-rows: 5fr 1fr;
+}
+
+.navigation > div > button {
+  display: flex;
+  height: 3.5rem;
+  width: 90%;
+  border: 2px solid rgb(51 65 85);
+  border-radius: 20px;
+  padding: 12px;
+}
+
+.navigation > div > button:hover {
+  background-color: rgb(71 85 105);
+}
+
+/* Desktop */
+@media (min-width: 1280.1px) {
+  .logo-sizing {
+    height: 100%;
+    width: 4rem;
+  }
+  .company-header {
+    height: 100%;
+    width: 100px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .logo-sizing {
+    height: 100%;
+    width: 4rem;
+  }
+  .company-header {
+    height: 100%;
+    width: 100px;
+  }
+}
+
+@media (max-width: 896px) {
+  .logo-sizing {
+    height: 100%;
+    width: 4rem;
+  }
+  .company-header {
+    height: 100%;
+    width: 100px;
+  }
+}
