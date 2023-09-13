@@ -1,14 +1,21 @@
-import Header from "@/components/Header";
-import Navigation from "@/components/Navigation";
+import HeaderDesktop from "@/components/desktop/Header";
+import Navigation from "@/components/desktop/Navigation";
+
+import HeaderTablet from "@/components/tablet/Header";
 
 export default function Profile() {
   return (
-    <div id="app-container" className="h-screen w-screen">
-      <Header />
-      <div className="app">
-        <Navigation />
-        <div>b</div>
+    <>
+      <div id="app-desktop" className="h-screen w-screen">
+        <HeaderDesktop />
+        <div className="app-desktop-container">
+          <Navigation />
+          <div>b</div>
+        </div>
       </div>
-    </div>
+      <div id="app-tablet" className="h-screen w-screen">
+        <HeaderTablet />
+      </div>
+    </>
   );
 }

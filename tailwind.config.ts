@@ -8,13 +8,13 @@ const config: Config = {
   ],
   theme: {
     screens: {
-      mobile: { max: "896px" },
-      // => @media (max-width: 896px) { ... }
+      'mobile': "984",
+      // => @media (max-width: 984px) { ... }
 
-      tablet: { max: "1280" },
+      "tablet": "1024",
       // => @media (max-width: 1280px) { ... }
 
-      desktop: { min: "1280.1" },
+      "desktop": "1280px",
       // => @media (min-width: 1280.1px) { ... }
     },
     extend: {

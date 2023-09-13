@@ -2,33 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.header {
-  display: grid;
-  grid-template-columns: 1fr 1fr 3fr 1fr;
-  height: 6%;
-}
-
-.header > div > div {
-  display: flex;
-  align-items: center;
-}
-
-.header > div {
-  height: 100%;
-}
-
-.app {
-  height: 94%;
-  display: grid;
-  grid-template-columns: 1fr 5fr;
-}
-
-.navigation {
-  display: grid;
-  grid-template-rows: 5fr 1fr;
-}
-
-.navigation > div > button {
+.nav-toggleable > button {
   display: flex;
   height: 3.5rem;
   width: 90%;
@@ -37,12 +11,36 @@
   padding: 12px;
 }
 
-.navigation > div > button:hover {
+.nav-toggleable > button:hover {
   background-color: rgb(71 85 105);
 }
 
+.togglable-dropdown {
+  width: 90%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border: 2px solid rgb(62, 79, 103);
+  border-top: 0px !important;
+}
+
+.togglable-dropdown > button {
+  height: 3rem;
+  padding: 12px;
+  width: 100%;
+}
+
+.togglable-dropdown > button:last-child {
+  padding-bottom: 2rem;
+}
+
 /* Desktop */
-@media (min-width: 1280.1px) {
+@media (min-width: 1180.1px) {
+  #app-desktop {
+    display: block !important;
+  }
+  #app-mobile {
+    display: none !important;
+  }
   .logo-sizing {
     height: 100%;
     width: 4rem;
@@ -53,7 +51,44 @@
   }
 }
 
-@media (max-width: 1280px) {
+/* header */
+
+#app-desktop > .header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 3fr 1fr;
+  height: 6%;
+}
+
+#app-desktop > .header > div > div {
+  display: flex;
+  align-items: center;
+}
+
+#app-desktop > .header > div {
+  height: 100%;
+}
+
+/* navigation */
+
+.app-desktop-container {
+  height: 94%;
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+}
+
+.app-desktop-container > .navigation {
+  display: grid;
+  grid-template-rows: 5fr 1fr;
+}
+
+/* tablet */
+@media (max-width: 1180px) {
+  #app-desktop {
+    display: none !important;
+  }
+  #app-mobile {
+    display: block !important;
+  }
   .logo-sizing {
     height: 100%;
     width: 4rem;
@@ -64,7 +99,21 @@
   }
 }
 
-@media (max-width: 896px) {
+#app-tablet > .header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 1fr;
+}
+
+#app-tablet > .header > div > div {
+  display: flex;
+  align-items: center;
+}
+
+/* mobile */
+@media (max-width: 640px) {
+  #app-mobile {
+    display: block !important;
+  }
   .logo-sizing {
     height: 100%;
     width: 4rem;
@@ -73,4 +122,82 @@
     height: 100%;
     width: 100px;
   }
+}
+
+/* end mobile */
+
+/* HamToXBtnCSS */
+
+#HTXB {
+  width: 50px;
+  height: 50px;
+  margin: 10px;
+  position: relative;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: 0.5s ease-in-out;
+  -moz-transition: 0.5s ease-in-out;
+  -o-transition: 0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
+  cursor: pointer;
+}
+
+#HTXB span {
+  display: block;
+  position: absolute;
+  height: 9px;
+  width: 100%;
+  background: #e4e4e4;
+  border-radius: 9px;
+  opacity: 1;
+  left: 0;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  -o-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: 0.25s ease-in-out;
+  -moz-transition: 0.25s ease-in-out;
+  -o-transition: 0.25s ease-in-out;
+  transition: 0.25s ease-in-out;
+}
+
+#HTXB span:nth-child(1) {
+  top: 0px;
+}
+
+#HTXB span:nth-child(2),
+#HTXB span:nth-child(3) {
+  top: 18px;
+}
+
+#HTXB span:nth-child(4) {
+  top: 36px;
+}
+
+#HTXB.open span:nth-child(1) {
+  top: 18px;
+  width: 0%;
+  left: 50%;
+}
+
+#HTXB.open span:nth-child(2) {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+#HTXB.open span:nth-child(3) {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+
+#HTXB.open span:nth-child(4) {
+  top: 18px;
+  width: 0%;
+  left: 50%;
 }
