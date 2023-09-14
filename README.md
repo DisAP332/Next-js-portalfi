@@ -32,4 +32,9 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
 # Next-js-portalfi
+
+## Using Redux
+
+in order to use Redux [following the typescript quick start on the documentation](https://redux-toolkit.js.org/tutorials/typescript) you need to create a CartProvider.tsx to initilize the redux provider so you can put the statement "use client" on top to prevent a error
