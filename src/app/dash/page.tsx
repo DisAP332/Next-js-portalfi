@@ -1,3 +1,4 @@
+import Body from "@/components/desktop/Body";
 import HeaderDesktop from "@/components/desktop/Header";
 import Navigation from "@/components/desktop/Navigation";
 
@@ -10,7 +11,7 @@ export default function Profile() {
         <HeaderDesktop />
         <div className="app-desktop-container">
           <Navigation />
-          <div>b</div>
+          <Body />
         </div>
       </div>
       <div id="app-tablet" className="h-screen w-screen">

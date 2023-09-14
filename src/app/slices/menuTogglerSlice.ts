@@ -83,7 +83,7 @@ export const menuTogglerSlice = createSlice({
   name: "menuToggler",
   initialState,
   reducers: {
-    showorHider: (state, action: PayloadAction<string>) => {
+    showorHiderMenu: (state, action: PayloadAction<string>) => {
       if (!state.profile.toggled && action.payload === "profile") {
         state = {
           ...state,
@@ -129,6 +129,6 @@ export const menuTogglerSlice = createSlice({
   },
 });
 
-export const { showorHider } = menuTogglerSlice.actions;
+export const { showorHiderMenu } = menuTogglerSlice.actions;
 
 export default menuTogglerSlice.reducer;

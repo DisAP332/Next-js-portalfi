@@ -35,6 +35,10 @@
   width: 100%;
 }
 
+.togglable-dropdown > button:hover {
+  background: var(--slate-6);
+}
+
 .togglable-dropdown > button:last-child {
   padding-bottom: 2rem;
 }
@@ -87,6 +91,13 @@
   grid-template-rows: 5fr 1fr;
 }
 
+/* events */
+
+.eventsHead {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 0.5fr 2fr 1fr 1fr;
+}
+
 /* tablet */
 @media (max-width: 1180px) {
   #app-desktop {
@@ -121,6 +132,8 @@
   transform: translateY(7vh);
   width: 250px;
   background-color: var(--slate-8);
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 /* mobile */

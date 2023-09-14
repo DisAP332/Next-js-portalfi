@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import menuTogglerReducer from "./app/slices/menuTogglerSlice";
+import sectionTogglerReducer from "./app/slices/sectionTogglerSlice";
 // ...
 
 export const store = configureStore({
   reducer: {
     menuToggler: menuTogglerReducer,
+    sectionToggler: sectionTogglerReducer,
   },
 });
 
