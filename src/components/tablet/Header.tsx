@@ -6,9 +6,12 @@ import CompanyHeader from "../../assets/images/Name_Logo.png";
 import { HamToXBtn } from "../global/HamIcon";
 import Navigation from "./Navigation";
 import { useState } from "react";
+import Storage from "../global/Storage";
 
 export default function Header() {
   const [showNav, setShowNav] = useState(false);
+
+  console.log(Storage.getItem("events"));
 
   return (
     <>

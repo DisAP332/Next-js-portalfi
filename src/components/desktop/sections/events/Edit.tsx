@@ -1,4 +1,4 @@
-import Cookies from "@/components/global/cookies";
+import Storage from "@/components/global/Storage";
 import axios from "axios";
 import { useState } from "react";
 
@@ -68,10 +68,10 @@ export default function Edit(Props: propsTypes) {
       eventData.cost
     );
     axios
-      .put(`http://localhost:8081/events/updateEvent/${ID}`, event, {
+      .put(`https://server.portalfi-jbw.com/events/updateEvent/${ID}`, event, {
         headers: {
-          authorization: Cookies.getData("token"),
-          user: Cookies.getData("user"),
+          authorization: Storage.getItem("token"),
+          user: Storage.getItem("user"),
         },
       })
       .then((res: any) => {
@@ -86,10 +86,9 @@ export default function Edit(Props: propsTypes) {
             description: eventData.description,
             cost: eventData.cost,
           });
-          Cookies.resetEventCookie(res.data.events);
+          Storage.setItem("events", res.data.events);
           Props.actions.setEvents(res.data.events);
           Props.actions.setShow({ show: false, css: { display: "none" } });
-          console.log("finsihed");
         } else {
           window.alert("Error in editing event");
         }

@@ -8,13 +8,19 @@ import Image from "next/image";
 
 import Event from "../../../events.json";
 import EventsCard from "../cards/EventsCard";
-import Cookies from "@/components/global/cookies";
 import { useState } from "react";
 import Add from "./Add";
+import Storage from "@/components/global/Storage";
 
 export default function Events() {
+  let localEvents: any;
+  localEvents = JSON.stringify(Event);
+  localEvents = Storage.getItem("events");
+  if (localEvents !== "undefined") {
+    localEvents = JSON.parse(localEvents);
+  }
   const events = useSelector((state: RootState) => state.sectionToggler.events);
-  const [eventData, setEventData] = useState(Cookies.getData("events"));
+  const [eventData, setEventData] = useState(localEvents || {});
   const [showAddModal, setShowAddModal] = useState({
     show: false,
     css: { display: "none" },
@@ -43,11 +49,15 @@ export default function Events() {
             <h1 className="text-center">Actions</h1>
           </div>
           <div className="eventCardContainer">
-            {eventData.map((items: { _id: string }) => (
-              <div className="eventCardBox" key={items._id}>
-                <EventsCard {...items} setEvents={setEventData} />
-              </div>
-            ))}
+            {eventData !== null ? (
+              eventData.map((items: { _id: string }) => (
+                <div className="eventCardBox" key={items._id}>
+                  <EventsCard {...items} setEvents={setEventData} />
+                </div>
+              ))
+            ) : (
+              <></>
+            )}
           </div>
         </div>
         <div className="flex justify-end pt-4">

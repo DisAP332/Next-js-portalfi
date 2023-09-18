@@ -1,7 +1,7 @@
-import Cookies from "@/components/global/cookies";
 import axios from "axios";
 import Edit from "../events/Edit";
 import { useState } from "react";
+import Storage from "@/components/global/Storage";
 
 export default function EventsCard(Props: any) {
   const [showEditModal, setShowEditModal] = useState({
@@ -23,8 +23,8 @@ export default function EventsCard(Props: any) {
         `https://server.portalfi-jbw.com/events/deleteEvent/${Props._id}`,
         {
           headers: {
-            authorization: Cookies.getData("token"),
-            user: Cookies.getData("user"),
+            authorization: Storage.getItem("token"),
+            user: Storage.getItem("user"),
           },
         }
       )
@@ -34,7 +34,7 @@ export default function EventsCard(Props: any) {
           document.location.href = "/";
         }
         if (res.data.success === true) {
-          Cookies.resetEventCookie(res.data.events);
+          Storage.setItem("events", res.data.events);
           Props.setEvents(res.data.events);
         } else {
           window.alert("Error in deleting event");
@@ -44,7 +44,7 @@ export default function EventsCard(Props: any) {
 
   const actions = {
     setShow: setShowEditModal,
-    setEvents: Props.setEventData,
+    setEvents: Props.setEvents,
     setEvent: setEventData,
   };
 

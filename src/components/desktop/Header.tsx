@@ -4,13 +4,9 @@ import Logo from "../../assets/images/FullLogo_Transparent.png";
 import CompanyHeader from "../../assets/images/Name_Logo.png";
 import ProfileIcon from "../../assets/icons/profile.svg";
 import Link from "next/link";
-import Cookies from "../global/cookies";
-import { useState } from "react";
+import Storage from "../global/Storage";
 
 export default function Header() {
-  const [user] = useState(Cookies.getData("user"));
-
-  console.log(user);
   return (
     <>
       <nav className="header bg-slate-800 text-purple-50 gr shadow-md shadow-slate-300">
@@ -32,7 +28,7 @@ export default function Header() {
         </div>
         <div className="flex items-center pl-10">
           <Image src={ProfileIcon} alt="settings icon" width={40} />
-          <h1 className="ml-4 text-2xl bold">{user}</h1>
+          <h1 className="pl-4">{Storage.getItem("user")}</h1>
         </div>
       </nav>
     </>

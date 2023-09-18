@@ -11,7 +11,6 @@ import ContentDD from "../global/buttons/ContentDD";
 import { useState } from "react";
 
 import { useDispatch } from "react-redux";
-import { showorHider } from "@/app/slices/sectionTogglerSlice";
 
 export default function Navigation(Props: NavProps) {
   let show;

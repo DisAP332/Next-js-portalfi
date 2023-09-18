@@ -1,7 +1,6 @@
-import Cookies from "@/components/global/cookies";
+import Storage from "@/components/global/Storage";
 import axios from "axios";
 import { useState } from "react";
-import { Modal } from "react-bootstrap";
 
 interface propsTypes {
   show: {
@@ -56,8 +55,8 @@ export default function Add(Props: propsTypes) {
         { Data: event },
         {
           headers: {
-            authorization: Cookies.getData("token"),
-            user: Cookies.getData("user"),
+            authorization: Storage.getItem("token"),
+            user: Storage.getItem("user"),
           },
         }
       )
@@ -75,7 +74,7 @@ export default function Add(Props: propsTypes) {
             description: "",
             cost: "",
           });
-          Cookies.resetEventCookie(res.data.events);
+          Storage.setItem("events", res.data.events);
           Props.setEvents(res.data.events);
           Props.setShow({ show: false, css: { display: "none" } });
         }
