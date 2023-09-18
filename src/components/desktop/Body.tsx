@@ -1,4 +1,4 @@
-import Events from "./sections/Events";
+import Events from "./sections/events/Events";
 
 export default function Body() {
   return (
