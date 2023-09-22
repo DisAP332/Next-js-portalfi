@@ -28,7 +28,9 @@ export default function ContentDD() {
         <button onClick={() => dispatch(showorHiderSection("events"))}>
           Events
         </button>
-        <button>Menu</button>
+        <button onClick={() => dispatch(showorHiderSection("food"))}>
+          Food
+        </button>
         <button>Drinks</button>
         <button>Advertisement</button>
         <button>Specials</button>

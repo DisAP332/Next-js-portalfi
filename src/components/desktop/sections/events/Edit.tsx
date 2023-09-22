@@ -67,14 +67,20 @@ export default function Edit(Props: propsTypes) {
       eventData.description,
       eventData.cost
     );
+    console.log(event);
     axios
-      .put(`https://server.portalfi-jbw.com/events/updateEvent/${ID}`, event, {
-        headers: {
-          authorization: Storage.getItem("token"),
-          user: Storage.getItem("user"),
-        },
-      })
+      .put(
+        `http://localhost:8080/events/${ID}`,
+        { Data: event },
+        {
+          headers: {
+            authorization: Storage.getItem("token"),
+            user: Storage.getItem("user"),
+          },
+        }
+      )
       .then((res: any) => {
+        console.log(res.data);
         if (res.data.auth === false) {
           window.alert("token has expired. please log back in");
         }
@@ -86,11 +92,11 @@ export default function Edit(Props: propsTypes) {
             description: eventData.description,
             cost: eventData.cost,
           });
-          Storage.setItem("events", res.data.events);
-          Props.actions.setEvents(res.data.events);
+          Storage.setItem("events", res.data.response.events);
+          Props.actions.setEvents(res.data.response.events);
           Props.actions.setShow({ show: false, css: { display: "none" } });
         } else {
-          window.alert("Error in editing event");
+          window.alert(res.data.response);
         }
       });
   };

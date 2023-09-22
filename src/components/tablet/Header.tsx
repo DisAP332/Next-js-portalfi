@@ -11,8 +11,6 @@ import Storage from "../global/Storage";
 export default function Header() {
   const [showNav, setShowNav] = useState(false);
 
-  console.log(Storage.getItem("events"));
-
   return (
     <>
       <nav className="header bg-slate-800 text-purple-50 gr shadow-md shadow-slate-300">

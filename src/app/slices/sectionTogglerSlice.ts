@@ -8,10 +8,22 @@ export interface SectionTogglerState {
       display: string;
     };
   };
+  food: {
+    display: boolean;
+    hiderCSS: {
+      display: string;
+    };
+  };
 }
 
 const initialState: SectionTogglerState = {
   events: {
+    display: false,
+    hiderCSS: {
+      display: "none",
+    },
+  },
+  food: {
     display: false,
     hiderCSS: {
       display: "none",
@@ -24,29 +36,53 @@ export const sectionTogglerSlice = createSlice({
   initialState,
   reducers: {
     showorHiderSection: (state, action: PayloadAction<string>) => {
-      if (!state.events.display && action.payload === "events") {
-        state = {
-          ...state,
-          events: {
-            display: true,
-            hiderCSS: {
-              display: "block",
+      switch (action.payload) {
+        case "events":
+          state = {
+            ...initialState,
+            events: {
+              display: true,
+              hiderCSS: {
+                display: "block",
+              },
             },
-          },
-        };
-        return state;
-      } else if (state.events.display && action.payload === "events") {
-        state = {
-          ...state,
-          events: {
-            display: false,
-            hiderCSS: {
-              display: "none",
+          };
+          return state;
+        case "food":
+          state = {
+            ...initialState,
+            food: {
+              display: true,
+              hiderCSS: {
+                display: "block",
+              },
             },
-          },
-        };
-        return state;
+          };
+          return state;
       }
+      // if (!state.events.display && action.payload === "events") {
+      //   state = {
+      //     ...state,
+      //     events: {
+      //       display: true,
+      //       hiderCSS: {
+      //         display: "block",
+      //       },
+      //     },
+      //   };
+      //   return state;
+      // } else if (state.events.display && action.payload === "events") {
+      //   state = {
+      //     ...state,
+      //     events: {
+      //       display: false,
+      //       hiderCSS: {
+      //         display: "none",
+      //       },
+      //     },
+      //   };
+      //   return state;
+      // }
     },
   },
 });

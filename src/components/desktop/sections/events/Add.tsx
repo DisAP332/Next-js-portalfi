@@ -51,7 +51,7 @@ export default function Add(Props: propsTypes) {
     );
     axios
       .post(
-        "https://server.portalfi-jbw.com/events/createEvent",
+        "http://localhost:8080/events",
         { Data: event },
         {
           headers: {
@@ -64,8 +64,8 @@ export default function Add(Props: propsTypes) {
         if (res.data.auth === false) {
           window.alert("token has expired. please log back in");
         }
-        if (!res.data.success) {
-          window.alert("event not created :(");
+        if (res.data.success === false) {
+          window.alert(res.data.response);
         } else {
           setEventData({
             name: "",
@@ -74,8 +74,8 @@ export default function Add(Props: propsTypes) {
             description: "",
             cost: "",
           });
-          Storage.setItem("events", res.data.events);
-          Props.setEvents(res.data.events);
+          Storage.setItem("events", res.data.response.events);
+          Props.setEvents(res.data.response.events);
           Props.setShow({ show: false, css: { display: "none" } });
         }
       });

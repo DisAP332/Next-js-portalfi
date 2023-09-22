@@ -97,7 +97,7 @@
   grid-template-rows: 5fr 1fr;
 }
 
-/* events */
+/* events section */
 
 .eventsGrid {
   display: grid;
@@ -131,6 +131,19 @@
 #eventcard > div:nth-child(1) {
   margin-left: 14px;
 }
+
+/* food section */
+
+.foodGrid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr 0.4fr 0.5fr 0.5fr 0.5fr 1fr 0.5fr 1fr;
+}
+
+.foodGrid > div {
+  overflow: auto;
+}
+
+/* btns */
 
 .editBtn {
   padding: 5px;

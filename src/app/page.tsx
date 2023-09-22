@@ -5,33 +5,35 @@ import { useRouter } from "next/navigation";
 
 import CompanyHeader from "../assets/images/Name_Logo.png";
 import Image from "next/image";
+import Storage from "@/components/global/Storage";
 
 export default function Home() {
   const router = useRouter();
   const [loginInfo, setLoginInfo] = useState({ username: "", password: "" });
 
   const handleLogin = async () => {
-    if (typeof window !== "undefined" && window.localStorage) {
-      await axios
-        .post("https://server.portalfi-jbw.com/user/login", {
-          username: loginInfo.username,
-          password: loginInfo.password,
-        })
-        .then((res) => {
-          if (res.data.status === "success") {
-            localStorage.setItem("JBWuser", res.data.user);
-            localStorage.setItem("JBWevents", res.data.EventData);
-            localStorage.setItem("JBWtoken", res.data.token);
-            setLoginInfo({
-              username: "",
-              password: "",
-            });
-            router.push("/dash");
-          } else {
-            window.alert("incorrect username/password");
-          }
-        });
-    }
+    await axios
+      .post("http://localhost:8080/user/login", {
+        username: loginInfo.username,
+        password: loginInfo.password,
+      })
+      .then((res) => {
+        if (res.data.success === true) {
+          Storage.setItem("user", res.data.response.user);
+          Storage.setItem("token", res.data.response.token);
+          Storage.setItem("events", res.data.response.events);
+          Storage.setItem("foodItems", res.data.response.food);
+          console.log(Storage.getItem("foodItems"));
+          console.log(Storage.getItem("events"));
+          setLoginInfo({
+            username: "",
+            password: "",
+          });
+          router.push("/dash");
+        } else {
+          window.alert("incorrect username/password");
+        }
+      });
   };
 
   return (
@@ -54,6 +56,7 @@ export default function Home() {
           <input
             id="password"
             name="password"
+            type="password"
             onChange={(e) =>
               setLoginInfo({ ...loginInfo, password: e.target.value })
             }
