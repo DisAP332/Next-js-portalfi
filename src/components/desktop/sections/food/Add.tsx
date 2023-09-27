@@ -13,21 +13,21 @@ interface propsTypes {
 
 export default function Add(Props: propsTypes) {
   const [foodData, setFoodData] = useState({
-    name: "",
-    description: "",
-    cost: "",
-    sale: {
-      is: false,
-      percentage: 0,
+    Name: "",
+    Description: "",
+    Cost: "",
+    Sale: {
+      Is: false,
+      Percentage: 0,
     },
-    isSpecial: false,
-    tags: {
-      spicy: false,
-      raw: false,
-      allergens: false,
+    IsSpecial: false,
+    Tags: {
+      Spicy: false,
+      Raw: false,
+      Allergens: false,
     },
-    type: "not set",
-    ingredients: "",
+    Type: "burger",
+    Ingredients: "",
   });
 
   class FoodItem {
@@ -35,14 +35,14 @@ export default function Add(Props: propsTypes) {
     Description: string;
     Cost: string;
     Sale: {
-      is: boolean;
-      percentage: number;
+      Is: boolean;
+      Percentage: number;
     };
     IsSpecial: boolean;
     Tags: {
-      spicy: boolean;
-      raw: boolean;
-      allergens: boolean;
+      Spicy: boolean;
+      Raw: boolean;
+      Allergens: boolean;
     };
     Type: string;
     Ingredients: string;
@@ -51,14 +51,14 @@ export default function Add(Props: propsTypes) {
       Description: string,
       Cost: string,
       Sale: {
-        is: boolean;
-        percentage: number;
+        Is: boolean;
+        Percentage: number;
       },
       IsSpecial: boolean,
       Tags: {
-        spicy: boolean;
-        raw: boolean;
-        allergens: boolean;
+        Spicy: boolean;
+        Raw: boolean;
+        Allergens: boolean;
       },
       Type: string,
       Ingredients: string
@@ -76,14 +76,14 @@ export default function Add(Props: propsTypes) {
 
   function handleFoodItemSubmit() {
     const foodItem = new FoodItem(
-      foodData.name,
-      foodData.description,
-      foodData.cost,
-      foodData.sale,
-      foodData.isSpecial,
-      foodData.tags,
-      foodData.type,
-      foodData.ingredients
+      foodData.Name,
+      foodData.Description,
+      foodData.Cost,
+      foodData.Sale,
+      foodData.IsSpecial,
+      foodData.Tags,
+      foodData.Type,
+      foodData.Ingredients
     );
     axios
       .post(
@@ -105,6 +105,24 @@ export default function Add(Props: propsTypes) {
         } else {
           Storage.setItem("foodItems", res.data.response.foodItems);
           Props.setFoodItems(res.data.response.foodItems);
+          setFoodData({
+            Name: "",
+            Description: "",
+            Cost: "",
+            Sale: {
+              Is: false,
+              Percentage: 0,
+            },
+            IsSpecial: false,
+            Tags: {
+              Spicy: false,
+              Raw: false,
+              Allergens: false,
+            },
+            Type: "not set",
+            Ingredients: "",
+          });
+
           Props.setShow({ show: false, css: { display: "none" } });
         }
       });
@@ -137,39 +155,39 @@ export default function Add(Props: propsTypes) {
               Name:
               <input
                 type="string"
-                value={foodData.name}
+                value={foodData.Name}
                 required
                 onChange={(e) =>
-                  setFoodData({ ...foodData, name: e.target.value })
+                  setFoodData({ ...foodData, Name: e.target.value })
                 }
               />
               Description:
               <textarea
                 required
-                value={foodData.description}
+                value={foodData.Description}
                 onChange={(e) =>
-                  setFoodData({ ...foodData, description: e.target.value })
+                  setFoodData({ ...foodData, Description: e.target.value })
                 }
               />
               Cost:
               <input
                 required
-                value={foodData.cost}
+                value={foodData.Cost}
                 type="number"
                 onChange={(e) =>
-                  setFoodData({ ...foodData, cost: e.target.value })
+                  setFoodData({ ...foodData, Cost: e.target.value })
                 }
               />
               <div className="flex justify-between">
                 Sale:
-                {foodData.sale.is ? (
+                {foodData.Sale.Is ? (
                   <button
                     onClick={() =>
                       setFoodData({
                         ...foodData,
-                        sale: {
-                          is: false,
-                          percentage: foodData.sale.percentage,
+                        Sale: {
+                          Is: false,
+                          Percentage: foodData.Sale.Percentage,
                         },
                       })
                     }
@@ -180,16 +198,16 @@ export default function Add(Props: propsTypes) {
                   <></>
                 )}
               </div>
-              {foodData.sale.is ? (
+              {foodData.Sale.Is ? (
                 <>
                   <input
                     required
-                    value={foodData.sale.percentage}
+                    value={foodData.Sale.Percentage}
                     type="number"
                     onChange={(e) =>
                       setFoodData({
                         ...foodData,
-                        sale: { is: true, percentage: Number(e.target.value) },
+                        Sale: { Is: true, Percentage: Number(e.target.value) },
                       })
                     }
                   />
@@ -197,12 +215,12 @@ export default function Add(Props: propsTypes) {
               ) : (
                 <input
                   required
-                  checked={foodData.sale.is}
+                  checked={foodData.Sale.Is}
                   type="checkbox"
                   onChange={() =>
                     setFoodData({
                       ...foodData,
-                      sale: { is: true, percentage: foodData.sale.percentage },
+                      Sale: { Is: true, Percentage: foodData.Sale.Percentage },
                     })
                   }
                 />
@@ -213,7 +231,7 @@ export default function Add(Props: propsTypes) {
                 onClick={() => {
                   setFoodData({
                     ...foodData,
-                    isSpecial: foodData.isSpecial ? false : true,
+                    IsSpecial: foodData.IsSpecial ? false : true,
                   });
                 }}
               />
@@ -225,9 +243,9 @@ export default function Add(Props: propsTypes) {
                   onClick={() => {
                     setFoodData({
                       ...foodData,
-                      tags: {
-                        ...foodData.tags,
-                        spicy: foodData.tags.spicy ? false : true,
+                      Tags: {
+                        ...foodData.Tags,
+                        Spicy: foodData.Tags.Spicy ? false : true,
                       },
                     });
                   }}
@@ -238,9 +256,9 @@ export default function Add(Props: propsTypes) {
                   onClick={() => {
                     setFoodData({
                       ...foodData,
-                      tags: {
-                        ...foodData.tags,
-                        raw: foodData.tags.raw ? false : true,
+                      Tags: {
+                        ...foodData.Tags,
+                        Raw: foodData.Tags.Raw ? false : true,
                       },
                     });
                   }}
@@ -251,9 +269,9 @@ export default function Add(Props: propsTypes) {
                   onClick={() => {
                     setFoodData({
                       ...foodData,
-                      tags: {
-                        ...foodData.tags,
-                        allergens: foodData.tags.allergens ? false : true,
+                      Tags: {
+                        ...foodData.Tags,
+                        Allergens: foodData.Tags.Allergens ? false : true,
                       },
                     });
                   }}
@@ -263,9 +281,9 @@ export default function Add(Props: propsTypes) {
               <select
                 id="type"
                 name="type"
-                value={foodData.type}
+                value={foodData.Type}
                 onChange={(e) =>
-                  setFoodData({ ...foodData, type: e.target.value })
+                  setFoodData({ ...foodData, Type: e.target.value })
                 }
               >
                 <option value="burger">Entree</option>
@@ -274,10 +292,10 @@ export default function Add(Props: propsTypes) {
               Ingredients:
               <input
                 required
-                value={foodData.ingredients}
+                value={foodData.Ingredients}
                 type="string"
                 onChange={(e) =>
-                  setFoodData({ ...foodData, ingredients: e.target.value })
+                  setFoodData({ ...foodData, Ingredients: e.target.value })
                 }
               />
             </form>

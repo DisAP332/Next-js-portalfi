@@ -1,6 +1,6 @@
 "use client";
 import Body from "@/components/desktop/Body";
-import HeaderDesktop from "@/components/desktop/Header";
+import Header from "@/components/desktop/Header";
 import Navigation from "@/components/desktop/Navigation";
 
 import HeaderTablet from "@/components/tablet/Header";
@@ -22,7 +22,7 @@ export default function Profile() {
   return (
     <>
       <div id="app-desktop" className="h-screen w-screen">
-        <HeaderDesktop />
+        <Header />
         <div className="app-desktop-container">
           <Navigation />
           <Body />

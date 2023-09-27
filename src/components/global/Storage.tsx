@@ -22,6 +22,12 @@ function getItem(requested: string) {
           result = JSON.parse(result);
         }
         return result;
+      case "drinks":
+        result = localStorage.getItem("JBWdrinks");
+        if (result !== "undefined") {
+          result = JSON.parse(result);
+        }
+        return result;
     }
   }
 }
@@ -35,6 +41,9 @@ function setItem(requested: string, payload: object) {
         break;
       case "foodItems":
         localStorage.setItem("JBWfoodItems", payloadStringed);
+        break;
+      case "drinks":
+        localStorage.setItem("JBWdrinks", payloadStringed);
         break;
       case "token":
         localStorage.setItem("JBWtoken", payloadStringed);

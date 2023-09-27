@@ -1,5 +1,5 @@
 import axios from "axios";
-import Edit from "../events/Edit";
+import Edit from "../food/Edit";
 import { useState } from "react";
 import Storage from "@/components/global/Storage";
 
@@ -10,21 +10,21 @@ export default function FoodCard(Props: any) {
   });
 
   const [foodData, setFoodData] = useState({
-    name: Props.Name,
-    description: Props.Description,
-    cost: Props.Cost,
-    sale: {
-      is: Props.Sale.is,
-      percentage: Props.Sale.percentage,
+    Name: Props.Name,
+    Description: Props.Description,
+    Cost: Props.Cost,
+    Sale: {
+      Is: Props.Sale.Is,
+      Percentage: Props.Sale.Percentage,
     },
-    isSpecial: Props.IsSpecial,
-    tags: {
-      spicy: Props.Tags.spicy,
-      raw: Props.Tags.raw,
-      allergens: Props.Tags.allergens,
+    IsSpecial: Props.IsSpecial,
+    Tags: {
+      Spicy: Props.Tags.Spicy,
+      Raw: Props.Tags.Raw,
+      Allergens: Props.Tags.Allergens,
     },
-    type: Props.type,
-    ingredients: Props.Ingredients,
+    Type: Props.Type,
+    Ingredients: Props.Ingredients,
   });
 
   function handleDelete() {
@@ -63,7 +63,7 @@ export default function FoodCard(Props: any) {
 
   return (
     <>
-      {/* <Edit actions={actions} data={data} /> */}
+      <Edit actions={actions} data={data} />
       <div id="eventcard" className="foodGrid text-slate-700">
         <div>
           <h1>{Props.Name}</h1>
@@ -75,16 +75,16 @@ export default function FoodCard(Props: any) {
           <h1>{Props.Cost}$</h1>
         </div>
         <div className="flex justify-center">
-          {Props.Sale.is ? <h1>{Props.Sale.percentage}%</h1> : <h1>None</h1>}
+          {Props.Sale.Is ? <h1>{Props.Sale.Percentage}%</h1> : <h1>None</h1>}
         </div>
         <div className="flex justify-center">
           <h1>{Props.IsSpecial ? "yes" : "no"}</h1>
         </div>
         <div className="flex justify-center">
           <h1>
-            {Props.Tags.spicy ? "*Spicy" : ""}
-            {Props.Tags.raw ? "*Raw" : ""}
-            {Props.Tags.allergens ? "*Alergens" : ""}
+            {Props.Tags.Spicy ? "*Spicy" : ""}
+            {Props.Tags.Raw ? "*Raw" : ""}
+            {Props.Tags.Allergens ? "*Alergens" : ""}
           </h1>
         </div>
         <div>
