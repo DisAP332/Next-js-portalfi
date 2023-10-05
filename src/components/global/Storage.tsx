@@ -16,7 +16,7 @@ function getItem(requested: string) {
           result = JSON.parse(result);
           return result;
         }
-      case "foodItems":
+      case "food":
         result = localStorage.getItem("JBWfoodItems");
         if (result !== "undefined") {
           result = JSON.parse(result);
@@ -27,6 +27,10 @@ function getItem(requested: string) {
         if (result !== "undefined") {
           result = JSON.parse(result);
         }
+        return result;
+      case "siteData":
+        result = localStorage.getItem("siteData");
+        result = JSON.parse(result);
         return result;
     }
   }
@@ -39,7 +43,7 @@ function setItem(requested: string, payload: object) {
       case "events":
         localStorage.setItem("JBWevents", payloadStringed);
         break;
-      case "foodItems":
+      case "food":
         localStorage.setItem("JBWfoodItems", payloadStringed);
         break;
       case "drinks":
@@ -50,6 +54,9 @@ function setItem(requested: string, payload: object) {
         break;
       case "user":
         localStorage.setItem("JBWuser", payloadStringed);
+        break;
+      case "siteData":
+        localStorage.setItem("siteData", payloadStringed);
         break;
     }
   }

@@ -2,6 +2,9 @@ import axios from "axios";
 import Edit from "../food/Edit";
 import { useState } from "react";
 import Storage from "@/components/global/Storage";
+import { useDispatch } from "react-redux";
+import crudActions from "@/components/global/crudActions";
+import { dataActions } from "@/app/slices/contentDataSlice";
 
 export default function FoodCard(Props: any) {
   const [showEditModal, setShowEditModal] = useState({
@@ -27,28 +30,20 @@ export default function FoodCard(Props: any) {
     Ingredients: Props.Ingredients,
   });
 
-  function handleDelete() {
-    axios
-      .delete(`http://localhost:8080/food/${Props._id}`, {
-        headers: {
-          authorization: Storage.getItem("token"),
-          user: Storage.getItem("user"),
-        },
-      })
-      .then((res) => {
-        if (res.data.auth === false) {
-          window.alert("Session expired. Please log back in");
-          document.location.href = "/";
-        }
-        if (res.data.success === true) {
-          Storage.setItem("foodItems", res.data.response.foodItems);
-          Props.setFoodItems(res.data.response.foodItems);
-        } else {
-          window.alert("Error in deleting Food Item");
-        }
-      });
-  }
+  const dispatch = useDispatch();
 
+  function handleDelete() {
+    crudActions.Delete(Props._id, "food").then((res) => {
+      if (res.success === true) {
+        dispatch(
+          dataActions({
+            requested: "food",
+            data: res.data,
+          })
+        );
+      }
+    });
+  }
   const actions = {
     setShow: setShowEditModal,
     setFoodItems: Props.setFoodItems,
@@ -64,12 +59,21 @@ export default function FoodCard(Props: any) {
   return (
     <>
       <Edit actions={actions} data={data} />
-      <div id="eventcard" className="foodGrid text-slate-700">
+      <div id="card" className="foodGrid text-slate-700">
         <div>
           <h1>{Props.Name}</h1>
         </div>
         <div>
-          <h1>{Props.Description}</h1>
+          {Props.Description.length < 14 ? (
+            <h1>{Props.Description}</h1>
+          ) : (
+            <h1
+              className="cursor-pointer"
+              onClick={() => window.alert(Props.Description)}
+            >
+              {Props.Description.slice(0, 14) + "..."}
+            </h1>
+          )}
         </div>
         <div className="flex justify-center">
           <h1>{Props.Cost}$</h1>
@@ -88,7 +92,16 @@ export default function FoodCard(Props: any) {
           </h1>
         </div>
         <div>
-          <h1>{Props.Ingredients}</h1>
+          {Props.Ingredients.length < 14 ? (
+            <h1>{Props.Ingredients}</h1>
+          ) : (
+            <h1
+              className="cursor-pointer"
+              onClick={() => window.alert(Props.Ingredients)}
+            >
+              {Props.Ingredients.slice(0, 14) + "..."}
+            </h1>
+          )}
         </div>
         <div className="flex justify-center">{Props.Type}</div>
         <div className="text-slate-100 ml-4">

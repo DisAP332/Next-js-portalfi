@@ -49,12 +49,23 @@
   padding-bottom: 2rem;
 }
 
+/* ********* home page options ***********/
+
+.homePageOptionsContainer {
+  display: grid;
+  grid-template-rows: 1.6fr 1fr;
+  height: 100%;
+}
+
 /* Desktop */
 @media (min-width: 1180.1px) {
   #app-desktop {
     display: block !important;
   }
   #app-tablet {
+    display: none !important;
+  }
+  #app-mobile {
     display: none !important;
   }
   .logo-sizing {
@@ -64,6 +75,9 @@
   .company-header {
     height: 100%;
     width: 100px;
+  }
+  .modal {
+    width: 30vw;
   }
 }
 
@@ -104,31 +118,37 @@
   grid-template-columns: 1.2fr 1fr 0.5fr 2fr 1fr 1fr;
 }
 
-.eventCardContainer {
+.CardContainer {
   max-height: 60vh;
   overflow: auto;
   padding-bottom: 20px;
 }
 
-.eventCardBox:nth-child(odd) {
+.CardBox:nth-child(odd) {
   background-color: var(--slate-2);
   border-right: 2px solid var(--slate-3) !important;
 }
 
-#eventcard {
+#card {
   margin-top: 10px;
 }
 
-#eventcard > div {
+#card > div {
   display: flex;
   align-items: center;
-  border-right: 2px solid var(--slate-2);
-  margin-top: 5px;
+  border-right: 2px solid var(--slate-3);
+  margin: 5px;
   padding-left: 10px;
   padding-right: 10px;
 }
 
-#eventcard > div:nth-child(1) {
+.contentHeader > h1 {
+  /* border-right: 1px solid white; */
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#card > div:nth-child(1) {
   margin-left: 14px;
 }
 
@@ -173,8 +193,11 @@
   #app-desktop {
     display: none !important;
   }
-  #app-mobile {
+  #app-tablet {
     display: block !important;
+  }
+  #app-mobile {
+    display: none !important;
   }
   .logo-sizing {
     height: 100%;
@@ -184,12 +207,14 @@
     height: 100%;
     width: 100px;
   }
+  .modal {
+    width: 60vw;
+  }
 }
 
 #app-tablet > .header {
   display: grid;
-  grid-template-columns: 1fr 1fr 2fr 1fr;
-  height: 7vh;
+  grid-template-columns: 0.6fr 1.3fr 2fr 1fr;
 }
 
 #app-tablet > .header > div > div {
@@ -199,15 +224,26 @@
 
 .navigation-tablet {
   position: fixed;
-  transform: translateY(7vh);
+  transform: translateY(10vh);
   width: 250px;
   background-color: var(--slate-8);
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
+.app-tablet-container {
+  width: 100vw;
+  height: 94vh;
+}
+
 /* mobile */
 @media (max-width: 640px) {
+  #app-desktop {
+    display: none !important;
+  }
+  #app-tablet {
+    display: none !important;
+  }
   #app-mobile {
     display: block !important;
   }
@@ -219,6 +255,19 @@
     height: 100%;
     width: 100px;
   }
+  .modal {
+    width: 95vw;
+  }
+}
+
+#app-mobile > .header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+#app-mobile > .header > div > div {
+  display: flex;
+  align-items: center;
 }
 
 /* end mobile */

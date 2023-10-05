@@ -1,6 +1,9 @@
+import { dataActions } from "@/app/slices/contentDataSlice";
 import Storage from "@/components/global/Storage";
+import crudActions from "@/components/global/crudActions";
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 interface propsTypes {
   actions: {
@@ -34,6 +37,7 @@ interface propsTypes {
 }
 
 export default function Edit(Props: propsTypes) {
+  const dispatch = useDispatch();
   const Data = Props.data.foodItem;
 
   const [foodData, setFoodData] = useState({
@@ -54,98 +58,18 @@ export default function Edit(Props: propsTypes) {
     Ingredients: Data.Ingredients,
   });
 
-  class FoodItem {
-    _id: string;
-    Name: string;
-    Description: string;
-    Cost: string;
-    Sale: {
-      Is: boolean;
-      Percentage: number;
-    };
-    IsSpecial: boolean;
-    Tags: {
-      Spicy: boolean;
-      Raw: boolean;
-      Allergens: boolean;
-    };
-    Type: string;
-    Ingredients: string;
-    constructor(
-      _id: string,
-      Name: string,
-      Description: string,
-      Cost: string,
-      Sale: {
-        Is: boolean;
-        Percentage: number;
-      },
-      IsSpecial: boolean,
-      Tags: {
-        Spicy: boolean;
-        Raw: boolean;
-        Allergens: boolean;
-      },
-      Type: string,
-      Ingredients: string
-    ) {
-      this._id = _id;
-      this.Name = Name;
-      this.Description = Description;
-      this.Cost = Cost;
-      this.Sale = Sale;
-      this.IsSpecial = IsSpecial;
-      this.Tags = Tags;
-      this.Type = Type;
-      this.Ingredients = Ingredients;
-    }
-  }
-
-  const handleFoodItemSubmit = (ID: string) => {
-    const foodItem = new FoodItem(
-      ID,
-      foodData.Name,
-      foodData.Description,
-      foodData.Cost,
-      foodData.Sale,
-      foodData.IsSpecial,
-      foodData.Tags,
-      foodData.Type,
-      foodData.Ingredients
-    );
-    axios
-      .put(
-        `http://localhost:8080/food/${ID}`,
-        { Data: foodItem },
-        {
-          headers: {
-            authorization: Storage.getItem("token"),
-            user: Storage.getItem("user"),
-          },
-        }
-      )
-      .then((res: any) => {
-        if (res.data.auth === false) {
-          window.alert("token has expired. please log back in");
-        }
-        if (res.data.success === true) {
-          Props.actions.setFoodItem({
-            Name: foodData.Name,
-            Description: foodData.Description,
-            Cost: foodData.Cost,
-            Sale: foodData.Sale,
-            IsSpecial: foodData.IsSpecial,
-            Tags: foodData.Tags,
-            Type: foodData.Type,
-            Ingredients: foodData.Ingredients,
-          });
-          Storage.setItem("foodItems", res.data.response.foodItems);
-          Props.actions.setFoodItems(res.data.response.foodItems);
-          Props.actions.setShow({ show: false, css: { display: "none" } });
-        } else {
-          window.alert(res.data.response);
-        }
-      });
+  const handleSaveEdit = (ID: string) => {
+    crudActions.Update(ID, "food", foodData).then((res) => {
+      if (res.success === true) {
+        dispatch(
+          dataActions({
+            requested: "food",
+            data: res.data,
+          })
+        );
+        Props.actions.setShow({ show: false, css: { display: "none" } });
+      }
+    });
   };
 
   return (
@@ -314,10 +238,9 @@ export default function Edit(Props: propsTypes) {
                 <option value="side">Side</option>
               </select>
               Ingredients:
-              <input
+              <textarea
                 required
                 value={foodData.Ingredients}
-                type="string"
                 onChange={(e) =>
                   setFoodData({ ...foodData, Ingredients: e.target.value })
                 }
@@ -328,7 +251,7 @@ export default function Edit(Props: propsTypes) {
         <div className="bg-slate-700 flex justify-end">
           <button
             className="bg-slate-300 pt-1 pb-1 pr-3 pl-3 m-3 rounded-xl text-xl"
-            onClick={() => handleFoodItemSubmit(Props.data._id)}
+            onClick={() => handleSaveEdit(Props.data._id)}
           >
             Save
           </button>

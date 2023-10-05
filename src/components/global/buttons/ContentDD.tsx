@@ -34,8 +34,12 @@ export default function ContentDD() {
         <button onClick={() => dispatch(showorHiderSection("drinks"))}>
           Drinks
         </button>
-        <button>Advertisement</button>
-        <button>Specials</button>
+        <button
+          style={{ borderTop: "1px solid white" }}
+          onClick={() => dispatch(showorHiderSection("home_page_options"))}
+        >
+          HomePage
+        </button>
       </div>
     </div>
   );

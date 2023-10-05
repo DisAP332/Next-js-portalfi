@@ -1,6 +1,9 @@
+import { dataActions } from "@/app/slices/contentDataSlice";
 import Storage from "@/components/global/Storage";
+import crudActions from "@/components/global/crudActions";
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 interface propsTypes {
   actions: {
@@ -25,6 +28,8 @@ interface propsTypes {
 }
 
 export default function Edit(Props: propsTypes) {
+  const dispatch = useDispatch();
+
   const [drinkData, setDrinkData] = useState({
     name: Props.data.drink.name,
     cost: Props.data.drink.cost,
@@ -34,76 +39,18 @@ export default function Edit(Props: propsTypes) {
     isSpecial: Props.data.drink.isSpecial,
   });
 
-  class Drink {
-    _id: string;
-    Name: string;
-    Cost: string;
-    Category: string;
-    Description: string;
-    Ingredients: string;
-    IsSpecial: boolean;
-    constructor(
-      _id: string,
-      Name: string,
-      Cost: string,
-      Category: string,
-      Description: string,
-      Ingredients: string,
-      IsSpecial: boolean
-    ) {
-      this._id = _id;
-      this.Name = Name;
-      this.Cost = Cost;
-      this.Category = Category;
-      this.Description = Description;
-      this.Ingredients = Ingredients;
-      this.IsSpecial = IsSpecial;
-    }
-  }
-
-  const handleDrinkSubmit = (ID: string) => {
-    console.log(ID);
-    const drink = new Drink(
-      ID,
-      drinkData.name,
-      drinkData.cost,
-      drinkData.category,
-      drinkData.description,
-      drinkData.ingredients,
-      drinkData.isSpecial
-    );
-    console.log(drink);
-    axios
-      .put(
-        `http://localhost:8080/drinks/${ID}`,
-        { Data: drink },
-        {
-          headers: {
-            authorization: Storage.getItem("token"),
-            user: Storage.getItem("user"),
-          },
-        }
-      )
-      .then((res: any) => {
-        if (res.data.auth === false) {
-          window.alert("token has expired. please log back in");
-        }
-        if (res.data.success === false) {
-          window.alert(res.data.response);
-        } else {
-          Props.actions.setDrink({
-            name: drinkData.name,
-            cost: drinkData.cost,
-            category: drinkData.category,
-            description: drinkData.description,
-            ingredients: drinkData.ingredients,
-            isSpecial: drinkData.isSpecial,
-          });
-          Storage.setItem("drinks", res.data.response.drinks);
-          Props.actions.setDrinks(res.data.response.drinks);
-          Props.actions.setShow({ show: false, css: { display: "none" } });
-        }
-      });
+  const handleSaveEdit = (ID: string) => {
+    crudActions.Update(ID, "drinks", drinkData).then((res) => {
+      if (res.success === true) {
+        dispatch(
+          dataActions({
+            requested: "drinks",
+            data: res.data,
+          })
+        );
+        Props.actions.setShow({ show: false, css: { display: "none" } });
+      }
+    });
   };
   return (
     <div
@@ -151,25 +98,22 @@ export default function Edit(Props: propsTypes) {
               <input
                 required
                 value={drinkData.category}
-                type="string"
                 onChange={(e) =>
                   setDrinkData({ ...drinkData, category: e.target.value })
                 }
               />
               Description:
-              <input
+              <textarea
                 required
                 value={drinkData.description}
-                type="string"
                 onChange={(e) =>
                   setDrinkData({ ...drinkData, description: e.target.value })
                 }
               />
               Ingredients:
-              <input
+              <textarea
                 required
                 value={drinkData.ingredients}
-                type="string"
                 onChange={(e) =>
                   setDrinkData({ ...drinkData, ingredients: e.target.value })
                 }
@@ -192,7 +136,7 @@ export default function Edit(Props: propsTypes) {
         <div className="bg-slate-700 flex justify-end">
           <button
             className="bg-slate-300 pt-1 pb-1 pr-3 pl-3 m-3 rounded-xl text-xl"
-            onClick={() => handleDrinkSubmit(Props.data._id)}
+            onClick={() => handleSaveEdit(Props.data._id)}
           >
             Save
           </button>

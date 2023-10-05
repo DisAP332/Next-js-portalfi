@@ -20,6 +20,12 @@ export interface SectionTogglerState {
       display: string;
     };
   };
+  home_page_options: {
+    display: boolean;
+    hiderCSS: {
+      display: string;
+    };
+  };
 }
 
 const initialState: SectionTogglerState = {
@@ -36,6 +42,12 @@ const initialState: SectionTogglerState = {
     },
   },
   drinks: {
+    display: false,
+    hiderCSS: {
+      display: "none",
+    },
+  },
+  home_page_options: {
     display: false,
     hiderCSS: {
       display: "none",
@@ -75,6 +87,17 @@ export const sectionTogglerSlice = createSlice({
           state = {
             ...initialState,
             drinks: {
+              display: true,
+              hiderCSS: {
+                display: "block",
+              },
+            },
+          };
+          return state;
+        case "home_page_options":
+          state = {
+            ...initialState,
+            home_page_options: {
               display: true,
               hiderCSS: {
                 display: "block",

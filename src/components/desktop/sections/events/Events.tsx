@@ -2,19 +2,18 @@
 
 import type { RootState } from "@/store";
 import { useSelector } from "react-redux";
-
 import AddIcon from "../../../../assets/icons/add-new.svg";
 import Image from "next/image";
-
-import Event from "../../../events.json";
 import EventsCard from "../cards/EventsCard";
 import { useState } from "react";
 import Add from "./Add";
-import Storage from "@/components/global/Storage";
 
 export default function Events() {
-  const events = useSelector((state: RootState) => state.sectionToggler.events);
-  const [eventData, setEventData] = useState(Storage.getItem("events") || {});
+  const toggler = useSelector(
+    (state: RootState) => state.sectionToggler.events
+  );
+  const events = useSelector((state: RootState) => state.contentData.events);
+  const [eventData, setEventData] = useState([{}] || [{}]);
   const [showAddModal, setShowAddModal] = useState({
     show: false,
     css: { display: "none" },
@@ -27,7 +26,7 @@ export default function Events() {
         setEvents={setEventData}
       />
       <div
-        style={events.hiderCSS}
+        style={toggler.hiderCSS}
         className="m-6 bg-slate-100 shadow-md pr-10 pl-10 pb-10 rounded-md h-5/6"
       >
         <div className="flex justify-between">
@@ -42,10 +41,10 @@ export default function Events() {
             <h1 className="text-center">Img</h1>
             <h1 className="text-center">Actions</h1>
           </div>
-          <div className="eventCardContainer">
-            {eventData !== null ? (
-              eventData.map((items: { _id: string }) => (
-                <div className="eventCardBox" key={items._id}>
+          <div className="CardContainer">
+            {events !== null && events.length ? (
+              events.map((items: { _id: string }) => (
+                <div className="CardBox" key={items._id}>
                   <EventsCard {...items} setEvents={setEventData} />
                 </div>
               ))

@@ -1,9 +1,13 @@
 "use client";
 import Body from "@/components/desktop/Body";
-import Header from "@/components/desktop/Header";
+import HeaderDesktop from "@/components/desktop/Header";
 import Navigation from "@/components/desktop/Navigation";
 
+import BodyTablet from "@/components/tablet/Body";
+
 import HeaderTablet from "@/components/tablet/Header";
+import HeaderMobile from "@/components/mobile/Header";
+import BodyMobile from "@/components/mobile/Body";
 import { useRouter } from "next/navigation";
 
 export default function Profile() {
@@ -22,7 +26,7 @@ export default function Profile() {
   return (
     <>
       <div id="app-desktop" className="h-screen w-screen">
-        <Header />
+        <HeaderDesktop />
         <div className="app-desktop-container">
           <Navigation />
           <Body />
@@ -30,6 +34,13 @@ export default function Profile() {
       </div>
       <div id="app-tablet" className="h-screen w-screen">
         <HeaderTablet />
+        <div className="app-tablet-container">
+          <BodyTablet />
+        </div>
+      </div>
+      <div id="app-mobile" className="h-screen w-screen">
+        <HeaderMobile />
+        <BodyMobile />
       </div>
     </>
   );

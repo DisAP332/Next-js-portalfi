@@ -1,6 +1,9 @@
+import { dataActions } from "@/app/slices/contentDataSlice";
 import Storage from "@/components/global/Storage";
+import crudActions from "@/components/global/crudActions";
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 interface propsTypes {
   show: {
@@ -12,7 +15,7 @@ interface propsTypes {
 }
 
 export default function Add(Props: propsTypes) {
-  const [foodData, setFoodData] = useState({
+  const initialState = {
     Name: "",
     Description: "",
     Cost: "",
@@ -28,104 +31,25 @@ export default function Add(Props: propsTypes) {
     },
     Type: "burger",
     Ingredients: "",
-  });
+  };
 
-  class FoodItem {
-    Name: string;
-    Description: string;
-    Cost: string;
-    Sale: {
-      Is: boolean;
-      Percentage: number;
-    };
-    IsSpecial: boolean;
-    Tags: {
-      Spicy: boolean;
-      Raw: boolean;
-      Allergens: boolean;
-    };
-    Type: string;
-    Ingredients: string;
-    constructor(
-      Name: string,
-      Description: string,
-      Cost: string,
-      Sale: {
-        Is: boolean;
-        Percentage: number;
-      },
-      IsSpecial: boolean,
-      Tags: {
-        Spicy: boolean;
-        Raw: boolean;
-        Allergens: boolean;
-      },
-      Type: string,
-      Ingredients: string
-    ) {
-      this.Name = Name;
-      this.Description = Description;
-      this.Cost = Cost;
-      this.Sale = Sale;
-      this.IsSpecial = IsSpecial;
-      this.Tags = Tags;
-      this.Type = Type;
-      this.Ingredients = Ingredients;
-    }
-  }
+  const [foodData, setFoodData] = useState(initialState);
+
+  const dispatch = useDispatch();
 
   function handleFoodItemSubmit() {
-    const foodItem = new FoodItem(
-      foodData.Name,
-      foodData.Description,
-      foodData.Cost,
-      foodData.Sale,
-      foodData.IsSpecial,
-      foodData.Tags,
-      foodData.Type,
-      foodData.Ingredients
-    );
-    axios
-      .post(
-        "http://localhost:8080/food",
-        { Data: foodItem },
-        {
-          headers: {
-            authorization: Storage.getItem("token"),
-            user: Storage.getItem("user"),
-          },
-        }
-      )
-      .then((res: any) => {
-        if (res.data.auth === false) {
-          window.alert("token has expired. please log back in");
-        }
-        if (res.data.success === false) {
-          window.alert(res.data.response);
-        } else {
-          Storage.setItem("foodItems", res.data.response.foodItems);
-          Props.setFoodItems(res.data.response.foodItems);
-          setFoodData({
-            Name: "",
-            Description: "",
-            Cost: "",
-            Sale: {
-              Is: false,
-              Percentage: 0,
-            },
-            IsSpecial: false,
-            Tags: {
-              Spicy: false,
-              Raw: false,
-              Allergens: false,
-            },
-            Type: "not set",
-            Ingredients: "",
-          });
-
-          Props.setShow({ show: false, css: { display: "none" } });
-        }
-      });
+    crudActions.Create("food", foodData).then((res) => {
+      if (res.success === true) {
+        dispatch(
+          dataActions({
+            requested: "food",
+            data: res.data,
+          })
+        );
+        setFoodData(initialState);
+        Props.setShow({ show: false, css: { display: "none" } });
+      }
+    });
   }
 
   return (
@@ -290,10 +214,9 @@ export default function Add(Props: propsTypes) {
                 <option value="side">Side</option>
               </select>
               Ingredients:
-              <input
+              <textarea
                 required
                 value={foodData.Ingredients}
-                type="string"
                 onChange={(e) =>
                   setFoodData({ ...foodData, Ingredients: e.target.value })
                 }

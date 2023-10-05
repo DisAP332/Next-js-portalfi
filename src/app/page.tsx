@@ -22,8 +22,9 @@ export default function Home() {
           Storage.setItem("user", res.data.response.user);
           Storage.setItem("token", res.data.response.token);
           Storage.setItem("events", res.data.response.events);
-          Storage.setItem("foodItems", res.data.response.food);
+          Storage.setItem("food", res.data.response.food);
           Storage.setItem("drinks", res.data.response.drinks);
+          Storage.setItem("siteData", res.data.response.publishedData);
           console.log(res.data.response);
           setLoginInfo({
             username: "",

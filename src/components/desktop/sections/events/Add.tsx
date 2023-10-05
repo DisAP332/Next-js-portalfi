@@ -1,6 +1,9 @@
+import { dataActions } from "@/app/slices/contentDataSlice";
 import Storage from "@/components/global/Storage";
+import crudActions from "@/components/global/crudActions";
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 interface propsTypes {
   show: {
@@ -12,73 +15,31 @@ interface propsTypes {
 }
 
 export default function Add(Props: propsTypes) {
-  const [eventData, setEventData] = useState({
+  const dispatch = useDispatch();
+
+  const initialState = {
     name: "",
     date: "",
     time: "",
     description: "",
     cost: "",
-  });
+  };
 
-  class Event {
-    Date: string;
-    Name: string;
-    Time: string;
-    Description: string;
-    Cost: string;
-    constructor(
-      Date: string,
-      Name: string,
-      Time: string,
-      Description: string,
-      Cost: string
-    ) {
-      this.Date = Date;
-      this.Name = Name;
-      this.Time = Time;
-      this.Description = Description;
-      this.Cost = Cost;
-    }
-  }
+  const [eventData, setEventData] = useState(initialState);
 
   const handleEventSubmit = async () => {
-    const event = new Event(
-      eventData.date,
-      eventData.name,
-      eventData.time,
-      eventData.description,
-      eventData.cost
-    );
-    axios
-      .post(
-        "http://localhost:8080/events",
-        { Data: event },
-        {
-          headers: {
-            authorization: Storage.getItem("token"),
-            user: Storage.getItem("user"),
-          },
-        }
-      )
-      .then((res: any) => {
-        if (res.data.auth === false) {
-          window.alert("token has expired. please log back in");
-        }
-        if (res.data.success === false) {
-          window.alert(res.data.response);
-        } else {
-          setEventData({
-            name: "",
-            date: "",
-            time: "",
-            description: "",
-            cost: "",
-          });
-          Storage.setItem("events", res.data.response.events);
-          Props.setEvents(res.data.response.events);
-          Props.setShow({ show: false, css: { display: "none" } });
-        }
-      });
+    crudActions.Create("events", eventData).then((res) => {
+      if (res.success === true) {
+        dispatch(
+          dataActions({
+            requested: "events",
+            data: res.data,
+          })
+        );
+        setEventData(initialState);
+        Props.setShow({ show: false, css: { display: "none" } });
+      }
+    });
   };
   return (
     <div

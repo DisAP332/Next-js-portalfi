@@ -12,7 +12,8 @@ import Storage from "@/components/global/Storage";
 import FoodCard from "../cards/FoodCard";
 
 export default function Food() {
-  const food = useSelector((state: RootState) => state.sectionToggler.food);
+  const toggler = useSelector((state: RootState) => state.sectionToggler.food);
+  const food = useSelector((state: RootState) => state.contentData.food);
   const [foodData, setFoodData] = useState(Storage.getItem("foodItems") || {});
   const [showAddModal, setShowAddModal] = useState({
     show: false,
@@ -26,7 +27,7 @@ export default function Food() {
         setFoodItems={setFoodData}
       />
       <div
-        style={food.hiderCSS}
+        style={toggler.hiderCSS}
         className="m-6 bg-slate-100 shadow-md pr-10 pl-10 pb-10 rounded-md h-5/6"
       >
         <div className="flex justify-between">
@@ -46,10 +47,10 @@ export default function Food() {
             <h1>Type</h1>
             <h1 className="text-center">Actions</h1>
           </div>
-          <div className="eventCardContainer">
-            {foodData !== null ? (
-              foodData.map((items: { _id: string }) => (
-                <div className="eventCardBox" key={items._id}>
+          <div className="CardContainer">
+            {food !== null && food !== "No food items found!" ? (
+              food.map((items: { _id: string }) => (
+                <div className="CardBox" key={items._id}>
                   <FoodCard {...items} setFoodItems={setFoodData} />
                 </div>
               ))

@@ -1,6 +1,9 @@
+import { dataActions } from "@/app/slices/contentDataSlice";
 import Storage from "@/components/global/Storage";
+import crudActions from "@/components/global/crudActions";
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 interface propsTypes {
   show: {
@@ -12,81 +15,33 @@ interface propsTypes {
 }
 
 export default function Add(Props: propsTypes) {
-  const [drinkData, setDrinkData] = useState({
+  const initialState = {
     name: "",
     cost: "",
     category: "",
     description: "",
     ingredients: "",
     isSpecial: false,
-  });
-
-  class Drink {
-    Name: string;
-    Cost: string;
-    Category: string;
-    Description: string;
-    Ingredients: string;
-    IsSpecial: boolean;
-    constructor(
-      Name: string,
-      Cost: string,
-      Category: string,
-      Description: string,
-      Ingredients: string,
-      IsSpecial: boolean
-    ) {
-      this.Name = Name;
-      this.Cost = Cost;
-      this.Category = Category;
-      this.Description = Description;
-      this.Ingredients = Ingredients;
-      this.IsSpecial = IsSpecial;
-    }
-  }
-
-  const handleDrinkSubmit = async () => {
-    const drink = new Drink(
-      drinkData.name,
-      drinkData.cost,
-      drinkData.category,
-      drinkData.description,
-      drinkData.ingredients,
-      drinkData.isSpecial
-    );
-    console.log(drink);
-    axios
-      .post(
-        "http://localhost:8080/drinks",
-        { Data: drink },
-        {
-          headers: {
-            authorization: Storage.getItem("token"),
-            user: Storage.getItem("user"),
-          },
-        }
-      )
-      .then((res: any) => {
-        if (res.data.auth === false) {
-          window.alert("token has expired. please log back in");
-        }
-        if (res.data.success === false) {
-          window.alert(res.data.response);
-        } else {
-          setDrinkData({
-            name: "",
-            cost: "",
-            category: "",
-            description: "",
-            ingredients: "",
-            isSpecial: false,
-          });
-          Storage.setItem("drinks", res.data.response.drinks);
-          Props.setDrinks(res.data.response.drinks);
-          Props.setShow({ show: false, css: { display: "none" } });
-        }
-      });
   };
+
+  const [drinkData, setDrinkData] = useState(initialState);
+
+  const dispatch = useDispatch();
+
+  function handleDrinkSubmit() {
+    crudActions.Create("drinks", drinkData).then((res) => {
+      if (res.success === true) {
+        dispatch(
+          dataActions({
+            requested: "drinks",
+            data: res.data,
+          })
+        );
+        setDrinkData(initialState);
+        Props.setShow({ show: false, css: { display: "none" } });
+      }
+    });
+  }
   return (
     <div
       className="fixed top-0 inset-0 bg-black
@@ -131,28 +86,39 @@ export default function Add(Props: propsTypes) {
                 }
               />
               Category:
-              <input
+              <select
+                id="catagory"
+                name="catagory"
+                value={drinkData.category}
+                onChange={(e) =>
+                  setDrinkData({ ...drinkData, category: e.target.value })
+                }
+              >
+                <option value="cocktail">Cocktail</option>
+                <option value="beer">beer</option>
+                <option value="draft">draft</option>
+                <option value="seltzer">seltzer</option>
+              </select>
+              {/* <input
                 required
                 value={drinkData.category}
                 type="string"
                 onChange={(e) =>
                   setDrinkData({ ...drinkData, category: e.target.value })
                 }
-              />
+              /> */}
               Description:
-              <input
+              <textarea
                 required
                 value={drinkData.description}
-                type="string"
                 onChange={(e) =>
                   setDrinkData({ ...drinkData, description: e.target.value })
                 }
               />
               Ingredients:
-              <input
+              <textarea
                 required
                 value={drinkData.ingredients}
-                type="string"
                 onChange={(e) =>
                   setDrinkData({ ...drinkData, ingredients: e.target.value })
                 }

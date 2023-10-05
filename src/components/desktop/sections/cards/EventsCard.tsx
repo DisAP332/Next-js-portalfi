@@ -1,7 +1,8 @@
-import axios from "axios";
 import Edit from "../events/Edit";
 import { useState } from "react";
-import Storage from "@/components/global/Storage";
+import { useDispatch } from "react-redux";
+import crudActions from "@/components/global/crudActions";
+import { dataActions } from "@/app/slices/contentDataSlice";
 
 export default function EventsCard(Props: any) {
   const [showEditModal, setShowEditModal] = useState({
@@ -17,26 +18,19 @@ export default function EventsCard(Props: any) {
     cost: Props.Cost,
   });
 
+  const dispatch = useDispatch();
+
   function handleDelete() {
-    axios
-      .delete(`http://localhost:8080/events/${Props._id}`, {
-        headers: {
-          authorization: Storage.getItem("token"),
-          user: Storage.getItem("user"),
-        },
-      })
-      .then((res) => {
-        if (res.data.auth === false) {
-          window.alert("Session expired. Please log back in");
-          document.location.href = "/";
-        }
-        if (res.data.success === true) {
-          Storage.setItem("events", res.data.response.events);
-          Props.setEvents(res.data.response.events);
-        } else {
-          window.alert("Error in deleting event");
-        }
-      });
+    crudActions.Delete(Props._id, "events").then((res) => {
+      if (res.success === true) {
+        dispatch(
+          dataActions({
+            requested: "events",
+            data: res.data,
+          })
+        );
+      }
+    });
   }
 
   const actions = {
@@ -54,9 +48,9 @@ export default function EventsCard(Props: any) {
   return (
     <>
       <Edit actions={actions} data={data} />
-      <div id="eventcard" className="eventsGrid text-slate-700">
+      <div id="card" className="eventsGrid text-slate-700">
         <div className="grid grid-cols-2">
-          <h1>{Props.Date}</h1>
+          <h1>{Props.Date.slice(2, 10)}</h1>
           <h1 className="ml-4">{Props.Time}</h1>
         </div>
         <div>
@@ -66,7 +60,16 @@ export default function EventsCard(Props: any) {
           <h1>{Props.Cost}$</h1>
         </div>
         <div>
-          <h1>{Props.Description}</h1>
+          {Props.Description.length < 45 ? (
+            <h1>{Props.Description}</h1>
+          ) : (
+            <h1
+              className="cursor-pointer"
+              onClick={() => window.alert(Props.Description)}
+            >
+              {Props.Description.slice(0, 45) + "..."}
+            </h1>
+          )}
         </div>
         <div>
           <h1>{Props.Img}</h1>

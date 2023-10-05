@@ -1,6 +1,9 @@
+import { dataActions } from "@/app/slices/contentDataSlice";
 import Storage from "@/components/global/Storage";
+import crudActions from "@/components/global/crudActions";
 import axios from "axios";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 interface propsTypes {
   actions: {
@@ -24,6 +27,7 @@ interface propsTypes {
 }
 
 export default function Edit(Props: propsTypes) {
+  const dispatch = useDispatch();
   // manage currently edited events state
   const [eventData, setEventData] = useState({
     name: Props.data.event.name,
@@ -33,72 +37,18 @@ export default function Edit(Props: propsTypes) {
     cost: Props.data.event.cost,
   });
 
-  //   defined types
-  class Event {
-    _id: string;
-    Date: string;
-    Name: string;
-    Time: string;
-    Description: string;
-    Cost: string;
-    constructor(
-      _id: string,
-      Date: string,
-      Name: string,
-      Time: string,
-      Description: string,
-      Cost: string
-    ) {
-      this._id = _id;
-      this.Date = Date;
-      this.Name = Name;
-      this.Time = Time;
-      this.Description = Description;
-      this.Cost = Cost;
-    }
-  }
-
   const handleSaveEdit = (ID: string) => {
-    const event = new Event(
-      ID,
-      eventData.date,
-      eventData.name,
-      eventData.time,
-      eventData.description,
-      eventData.cost
-    );
-    console.log(event);
-    axios
-      .put(
-        `http://localhost:8080/events/${ID}`,
-        { Data: event },
-        {
-          headers: {
-            authorization: Storage.getItem("token"),
-            user: Storage.getItem("user"),
-          },
-        }
-      )
-      .then((res: any) => {
-        console.log(res.data);
-        if (res.data.auth === false) {
-          window.alert("token has expired. please log back in");
-        }
-        if (res.data.success === true) {
-          Props.actions.setEvent({
-            date: eventData.date,
-            name: eventData.name,
-            time: eventData.time,
-            description: eventData.description,
-            cost: eventData.cost,
-          });
-          Storage.setItem("events", res.data.response.events);
-          Props.actions.setEvents(res.data.response.events);
-          Props.actions.setShow({ show: false, css: { display: "none" } });
-        } else {
-          window.alert(res.data.response);
-        }
-      });
+    crudActions.Update(ID, "events", eventData).then((res) => {
+      if (res.success === true) {
+        dispatch(
+          dataActions({
+            requested: "events",
+            data: res.data,
+          })
+        );
+        Props.actions.setShow({ show: false, css: { display: "none" } });
+      }
+    });
   };
 
   return (
