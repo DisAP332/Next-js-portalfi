@@ -22,9 +22,9 @@ interface IResults {
 let results: IResults;
 
 const initialState = {
-  events: Storage.getItem("events"),
-  drinks: Storage.getItem("drinks"),
-  food: Storage.getItem("food"),
+  events: Storage.getItem("events") || [{}],
+  drinks: Storage.getItem("drinks") || [{}],
+  food: Storage.getItem("food") || [{}],
 };
 
 export const contentDataSlice = createSlice({

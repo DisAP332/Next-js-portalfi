@@ -4,7 +4,7 @@ import ProfileDD from "../global/buttons/ProfileDD";
 import ContentDD from "../global/buttons/ContentDD";
 import SettingsDD from "../global/buttons/SettingsDD";
 
-export default function Navigation() {
+export default function NavigationSide() {
   return (
     <div className="bg-slate-800 shadow-xl shadow-slate-700 navigation pt-10">
       <div className="flex flex-col gap-y-3">

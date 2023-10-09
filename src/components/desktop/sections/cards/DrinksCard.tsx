@@ -1,3 +1,5 @@
+"use client";
+
 import axios from "axios";
 import { useState } from "react";
 import Storage from "@/components/global/Storage";
@@ -50,7 +52,7 @@ export default function DrinksCard(Props: any) {
     _id: Props._id,
   };
 
-  return (
+  const page = Props.Cost ? (
     <>
       <Edit actions={actions} data={data} />
       <div id="card" className="drinksGrid text-slate-700">
@@ -108,5 +110,11 @@ export default function DrinksCard(Props: any) {
         </div>
       </div>
     </>
+  ) : (
+    <>
+      <h1>no data</h1>
+    </>
   );
+
+  return page;
 }

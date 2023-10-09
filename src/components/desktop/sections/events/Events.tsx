@@ -42,7 +42,7 @@ export default function Events() {
             <h1 className="text-center">Actions</h1>
           </div>
           <div className="CardContainer">
-            {events !== null && events.length ? (
+            {events !== null && events ? (
               events.map((items: { _id: string }) => (
                 <div className="CardBox" key={items._id}>
                   <EventsCard {...items} setEvents={setEventData} />

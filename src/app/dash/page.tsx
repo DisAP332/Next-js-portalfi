@@ -1,7 +1,6 @@
 "use client";
 import Body from "@/components/desktop/Body";
 import HeaderDesktop from "@/components/desktop/Header";
-import Navigation from "@/components/desktop/Navigation";
 
 import BodyTablet from "@/components/tablet/Body";
 
@@ -9,6 +8,7 @@ import HeaderTablet from "@/components/tablet/Header";
 import HeaderMobile from "@/components/mobile/Header";
 import BodyMobile from "@/components/mobile/Body";
 import { useRouter } from "next/navigation";
+import NavigationSide from "@/components/desktop/NavigationSide";
 
 export default function Profile() {
   let loggedIn;
@@ -17,18 +17,20 @@ export default function Profile() {
     loggedIn = localStorage.getItem("JBWtoken");
   }
 
-  const router = useRouter();
-  // if not logged in reroute
-  if (!loggedIn) {
-    router.push("/");
-  }
+  // this causes a location error
+
+  // const router = useRouter();
+  // // if not logged in reroute
+  // if (!loggedIn) {
+  //   router.push("/");
+  // }
 
   return (
     <>
       <div id="app-desktop" className="h-screen w-screen">
         <HeaderDesktop />
         <div className="app-desktop-container">
-          <Navigation />
+          <NavigationSide />
           <Body />
         </div>
       </div>

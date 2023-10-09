@@ -1,3 +1,5 @@
+"use client";
+
 import Edit from "../events/Edit";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -45,34 +47,46 @@ export default function EventsCard(Props: any) {
     _id: Props._id,
   };
 
+  function sliceDate() {
+    if (Props.Date) {
+      let date = Props.Date;
+      date = date.slice(2, 10);
+      return date;
+    } else {
+      return "none";
+    }
+  }
+
   return (
     <>
       <Edit actions={actions} data={data} />
       <div id="card" className="eventsGrid text-slate-700">
         <div className="grid grid-cols-2">
-          <h1>{Props.Date.slice(2, 10)}</h1>
-          <h1 className="ml-4">{Props.Time}</h1>
+          <h1>{sliceDate()}</h1>
+          <h1 className="ml-4">{Props.Time ? Props.Time : null}</h1>
         </div>
         <div>
-          <h1>{Props.Name}</h1>
+          <h1>{Props.Name ? Props.Name : null}</h1>
         </div>
         <div>
-          <h1>{Props.Cost}$</h1>
+          <h1>{Props.Cost ? Props.Cost : null}$</h1>
         </div>
         <div>
-          {Props.Description.length < 45 ? (
-            <h1>{Props.Description}</h1>
-          ) : (
-            <h1
-              className="cursor-pointer"
-              onClick={() => window.alert(Props.Description)}
-            >
-              {Props.Description.slice(0, 45) + "..."}
-            </h1>
-          )}
+          {Props.Description ? (
+            Props.Description.length < 45 ? (
+              <h1>{Props.Description}</h1>
+            ) : (
+              <h1
+                className="cursor-pointer"
+                onClick={() => window.alert(Props.Description)}
+              >
+                {Props.Description.slice(0, 45) + "..."}
+              </h1>
+            )
+          ) : null}
         </div>
         <div>
-          <h1>{Props.Img}</h1>
+          <h1>{Props.Img ? Props.Img : null}</h1>
         </div>
         <div className="text-slate-100 ml-4">
           <button

@@ -12,23 +12,47 @@ export default function FoodCard(Props: any) {
     css: { display: "none" },
   });
 
-  const [foodData, setFoodData] = useState({
-    Name: Props.Name,
-    Description: Props.Description,
-    Cost: Props.Cost,
-    Sale: {
-      Is: Props.Sale.Is,
-      Percentage: Props.Sale.Percentage,
-    },
-    IsSpecial: Props.IsSpecial,
-    Tags: {
-      Spicy: Props.Tags.Spicy,
-      Raw: Props.Tags.Raw,
-      Allergens: Props.Tags.Allergens,
-    },
-    Type: Props.Type,
-    Ingredients: Props.Ingredients,
-  });
+  function props() {
+    if (Props.length >= 1) {
+      return {
+        Name: Props.Name,
+        Description: Props.Description,
+        Cost: Props.Cost,
+        Sale: {
+          Is: Props.Sale.Is,
+          Percentage: Props.Sale.Percentage,
+        },
+        IsSpecial: Props.IsSpecial,
+        Tags: {
+          Spicy: Props.Tags.Spicy,
+          Raw: Props.Tags.Raw,
+          Allergens: Props.Tags.Allergens,
+        },
+        Type: Props.Type,
+        Ingredients: Props.Ingredients,
+      };
+    } else
+      return {
+        Name: "",
+        Description: "",
+        Cost: "",
+        Sale: {
+          Is: "",
+          Percentage: "",
+        },
+        IsSpecial: "",
+        Tags: {
+          Spicy: "",
+          Raw: "",
+          Allergens: "",
+        },
+        Type: "",
+        Ingredients: "",
+      };
+  }
+  console.log(props());
+
+  const [foodData, setFoodData] = useState(props());
 
   const dispatch = useDispatch();
 
@@ -56,7 +80,7 @@ export default function FoodCard(Props: any) {
     _id: Props._id,
   };
 
-  return (
+  const page = Props.Description ? (
     <>
       <Edit actions={actions} data={data} />
       <div id="card" className="foodGrid text-slate-700">
@@ -64,22 +88,30 @@ export default function FoodCard(Props: any) {
           <h1>{Props.Name}</h1>
         </div>
         <div>
-          {Props.Description.length < 14 ? (
-            <h1>{Props.Description}</h1>
-          ) : (
-            <h1
-              className="cursor-pointer"
-              onClick={() => window.alert(Props.Description)}
-            >
-              {Props.Description.slice(0, 14) + "..."}
-            </h1>
-          )}
+          {Props.Description ? (
+            Props.Description.length < 14 ? (
+              <h1>{Props.Description}</h1>
+            ) : (
+              <h1
+                className="cursor-pointer"
+                onClick={() => window.alert(Props.Description)}
+              >
+                {Props.Description.slice(0, 14) + "..."}
+              </h1>
+            )
+          ) : null}
         </div>
         <div className="flex justify-center">
           <h1>{Props.Cost}$</h1>
         </div>
         <div className="flex justify-center">
-          {Props.Sale.Is ? <h1>{Props.Sale.Percentage}%</h1> : <h1>None</h1>}
+          {Props.Sale ? (
+            Props.Sale.Is ? (
+              <h1>{Props.Sale.Percentage}%</h1>
+            ) : (
+              <h1>None</h1>
+            )
+          ) : null}
         </div>
         <div className="flex justify-center">
           <h1>{Props.IsSpecial ? "yes" : "no"}</h1>
@@ -122,5 +154,11 @@ export default function FoodCard(Props: any) {
         </div>
       </div>
     </>
+  ) : (
+    <></>
   );
+
+  console.log(page);
+
+  return page;
 }

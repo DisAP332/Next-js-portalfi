@@ -48,7 +48,7 @@ export default function Food() {
             <h1 className="text-center">Actions</h1>
           </div>
           <div className="CardContainer">
-            {food !== null && food !== "No food items found!" ? (
+            {food !== null && food !== "No food items found!" && food ? (
               food.map((items: { _id: string }) => (
                 <div className="CardBox" key={items._id}>
                   <FoodCard {...items} setFoodItems={setFoodData} />
