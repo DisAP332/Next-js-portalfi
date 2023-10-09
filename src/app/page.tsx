@@ -13,7 +13,7 @@ export default function Home() {
 
   const handleLogin = async () => {
     await axios
-      .post("http://localhost:8080/user/login", {
+      .post("https://server.portalfi-jbw.com/user/login", {
         username: loginInfo.username,
         password: loginInfo.password,
       })

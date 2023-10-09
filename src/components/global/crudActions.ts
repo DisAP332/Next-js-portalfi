@@ -38,7 +38,7 @@ function handleResponse(res: AxiosResponse) {
 
 async function Delete(id: string, requested: string) {
   await axios
-    .delete(`http://localhost:8080/${requested}/${id}`, {
+    .delete(`https://server.portalfi-jbw.com/${requested}/${id}`, {
       headers: {
         authorization: Storage.getItem("token"),
         user: Storage.getItem("user"),
@@ -54,7 +54,7 @@ async function Update(id: string, requested: string, data: object) {
   let formatedData = format(requested, data);
   await axios
     .put(
-      `http://localhost:8080/${requested}/${id}`,
+      `https://server.portalfi-jbw.com/${requested}/${id}`,
       { Data: formatedData },
       {
         headers: {
@@ -73,7 +73,7 @@ async function Create(requested: string, data: object) {
   let formatedData = format(requested, data);
   await axios
     .post(
-      `http://localhost:8080/${requested}`,
+      `https://server.portalfi-jbw.com/${requested}`,
       { Data: formatedData },
       {
         headers: {
@@ -158,7 +158,7 @@ async function sortPublishData(data: {
     console.log("creation route");
     await axios
       .put(
-        `http://localhost:8080/site`,
+        `https://server.portalfi-jbw.com/site`,
         { Data },
         {
           headers: {
@@ -173,7 +173,7 @@ async function sortPublishData(data: {
     console.log(siteDataExists[0]._id);
     await axios
       .put(
-        `http://localhost:8080/site/${siteDataExists[0]._id}`,
+        `https://server.portalfi-jbw.com/site/${siteDataExists[0]._id}`,
         { Data },
         {
           headers: {
