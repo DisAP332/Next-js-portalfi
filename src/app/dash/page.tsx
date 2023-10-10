@@ -5,25 +5,36 @@ import HeaderDesktop from "@/components/desktop/Header";
 import BodyTablet from "@/components/tablet/Body";
 
 import HeaderTablet from "@/components/tablet/Header";
-import HeaderMobile from "@/components/mobile/Header";
-import BodyMobile from "@/components/mobile/Body";
-import { useRouter } from "next/navigation";
 import NavigationSide from "@/components/desktop/NavigationSide";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { dataActions } from "../slices/contentDataSlice";
+import Storage from "@/components/global/Storage";
 
 export default function Profile() {
-  let loggedIn;
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  let loggedIn: string | null = null;
 
   if (typeof window !== "undefined" && window.localStorage) {
     loggedIn = localStorage.getItem("JBWtoken");
   }
 
-  // this causes a location error
+  // check if user is logged in. if not send them back to the login screen.
+  function checkIfLoggedIn() {
+    if (!loggedIn) {
+      router.push("/");
+      dispatch(
+        dataActions({ requested: "drinks", data: Storage.getItem("drinks") })
+      );
+    }
+  }
 
-  // const router = useRouter();
-  // // if not logged in reroute
-  // if (!loggedIn) {
-  //   router.push("/");
-  // }
+  useEffect(() => {
+    checkIfLoggedIn();
+  });
 
   return (
     <>
@@ -41,8 +52,7 @@ export default function Profile() {
         </div>
       </div>
       <div id="app-mobile" className="h-screen w-screen">
-        <HeaderMobile />
-        <BodyMobile />
+        <h1>MOBILE UNAVAILABLE FOR THIS APPLICATION</h1>
       </div>
     </>
   );

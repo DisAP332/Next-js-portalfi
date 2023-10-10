@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 
 import CompanyHeader from "../assets/images/Name_Logo.png";
@@ -9,7 +9,17 @@ import Storage from "@/components/global/Storage";
 
 export default function Home() {
   const router = useRouter();
-  const [loginInfo, setLoginInfo] = useState({ username: "", password: "" });
+  const initialState = { username: "", password: "" };
+  const [loginInfo, setLoginInfo] = useState(initialState);
+
+  const saveAllToLocalStorage = (res: AxiosResponse<any, any>) => {
+    Storage.setItem("user", res.data.response.user);
+    Storage.setItem("token", res.data.response.token);
+    Storage.setItem("events", res.data.response.events);
+    Storage.setItem("food", res.data.response.food);
+    Storage.setItem("drinks", res.data.response.drinks);
+    Storage.setItem("siteData", res.data.response.publishedData);
+  };
 
   const handleLogin = async () => {
     await axios
@@ -19,17 +29,11 @@ export default function Home() {
       })
       .then((res) => {
         if (res.data.success === true) {
-          Storage.setItem("user", res.data.response.user);
-          Storage.setItem("token", res.data.response.token);
-          Storage.setItem("events", res.data.response.events);
-          Storage.setItem("food", res.data.response.food);
-          Storage.setItem("drinks", res.data.response.drinks);
-          Storage.setItem("siteData", res.data.response.publishedData);
-          console.log(res.data.response);
-          setLoginInfo({
-            username: "",
-            password: "",
-          });
+          // save all data to local storage
+          saveAllToLocalStorage(res);
+          // dump the login info from state
+          setLoginInfo(initialState);
+          // move to the dashboard
           router.push("/dash");
         } else {
           window.alert("incorrect username/password");

@@ -1142,7 +1142,10 @@ video {
     display: none !important;
   }
   #app-mobile {
-    display: block !important;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    color: black;
   }
   .logo-sizing {
     height: 100%;

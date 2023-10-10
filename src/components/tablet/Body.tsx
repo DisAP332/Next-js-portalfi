@@ -1,6 +1,6 @@
-import Drinks from "../desktop/sections/drinks/Drinks";
-import Events from "../desktop/sections/events/Events";
-import Food from "../desktop/sections/food/Food";
+import Drinks from "../sections/drinks/Drinks";
+import Events from "../sections/events/Events";
+import Food from "../sections/food/Food";
 
 export default function Body() {
   return (

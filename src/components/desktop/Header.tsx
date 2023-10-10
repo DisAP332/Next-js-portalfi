@@ -19,7 +19,7 @@ export default function Header() {
 
   return (
     <>
-      <nav className="header bg-slate-800 text-purple-50 gr shadow-md shadow-slate-300">
+      <div className="header bg-slate-800 text-purple-50 gr shadow-md shadow-slate-300">
         <div className="flex justify-start border-b-2 border-slate-500">
           <div className="logo-sizing">
             <Image src={Logo} alt="Logo" />
@@ -42,7 +42,7 @@ export default function Header() {
           <Image src={ProfileIcon} alt="settings icon" width={40} />
           <h1 className="pl-4">{Storage.getItem("user")}</h1>
         </div>
-      </nav>
+      </div>
     </>
   );
 }
