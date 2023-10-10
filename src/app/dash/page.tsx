@@ -26,14 +26,17 @@ export default function Profile() {
   function checkIfLoggedIn() {
     if (!loggedIn) {
       router.push("/");
-      dispatch(
-        dataActions({ requested: "drinks", data: Storage.getItem("drinks") })
-      );
     }
   }
 
   useEffect(() => {
     checkIfLoggedIn();
+    setTimeout(() => {
+      dispatch(
+        dataActions({ requested: "drinks", data: Storage.getItem("drinks") })
+      );
+      console.log("reset");
+    }, 1000);
   });
 
   return (
