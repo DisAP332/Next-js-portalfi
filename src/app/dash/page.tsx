@@ -29,13 +29,21 @@ export default function Profile() {
     }
   }
 
+  function getDataFromLocalStorageToUpdateState() {
+    dispatch(
+      dataActions({ requested: "drinks", data: Storage.getItem("drinks") })
+    );
+    dispatch(
+      dataActions({ requested: "events", data: Storage.getItem("events") })
+    );
+    dispatch(dataActions({ requested: "food", data: Storage.getItem("food") }));
+  }
+
   useEffect(() => {
     checkIfLoggedIn();
     setTimeout(() => {
-      dispatch(
-        dataActions({ requested: "drinks", data: Storage.getItem("drinks") })
-      );
-      console.log("reset");
+      getDataFromLocalStorageToUpdateState();
+      console.log("data ready");
     }, 1000);
   });
 

@@ -31,8 +31,6 @@ export default function Food() {
       <></>
     );
 
-  console.log(food);
-
   return (
     <>
       <Add

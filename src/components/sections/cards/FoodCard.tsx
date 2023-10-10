@@ -159,7 +159,5 @@ export default function FoodCard(Props: any) {
     <div></div>
   );
 
-  console.log(page);
-
   return page;
 }
